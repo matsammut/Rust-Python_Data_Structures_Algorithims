@@ -1,35 +1,53 @@
 package main
 
 import (
-	// "fmt"
+	"fmt"
 	"math/rand/v2"
 	// "reflect"
 )
 
 func main() {
+	fmt.Print("Start\n")
+	A := populateArray()
+	B := populateArray()
 
-	var len_of_A = rand.Int32N(100) + 256
-
-	A := make([]int32, len_of_A)
-	var i int32 = 0
-	for i = 0; i < len_of_A; i++ {
-		A[i] = rand.Int32N(1024)
+	// a method which would technically be correct but might not be what the question inteded would be to truncate one of the arrays by a random small value
+	for len(B) == len(A) {
+		B = populateArray()
 	}
-
-	len_of_B := rand.Int32N(100) + 256
-
-	B := make([]int32, len_of_B)
-	for i = 0; i < len_of_B; i++ {
-		B[i] = rand.Int32N(1024)
-	}
+	fmt.Print(A)
+	fmt.Print("\n")
+	A = shellSort(A)
+	fmt.Print(A)
 }
 
-func populateArray() {
-	var len_of_A = rand.Int32N(100) + 256
-	A := make([]int32, len_of_A)
-	var i int32 = 0
-	for i = 0; i < len_of_A; i++ {
-		A[i] = rand.Int32N(1024)
+func populateArray() (array_Rand []uint16) {
+	var len_of_Array uint16 = uint16(rand.Int32N(100) + 256)
+	var i uint16 = 0
+	array_Rand = make([]uint16, len_of_Array)
+	for i = 0; i < len_of_Array; i++ {
+		array_Rand[i] = uint16(rand.Int32N(1024))
 	}
-	return A
+	return array_Rand
 }
+
+func shellSort(unsorted_array []uint16) (sorted_array []uint16) {
+	var len_of_Array uint16 = uint16(len(unsorted_array))
+
+	for gap := uint16(len_of_Array / 2); gap > 0; gap-- {
+		for counter := uint16(0); counter+gap < len_of_Array; counter++ {
+			if unsorted_array[gap+counter] < unsorted_array[counter] {
+				hold := unsorted_array[counter]
+				unsorted_array[counter] = unsorted_array[gap+counter]
+				unsorted_array[gap+counter] = hold
+			}
+		}
+
+	}
+	return unsorted_array
+}
+
+// func quickSort(unsorted_array []uint16)(sorted_array []uint16){
+// 	var pivot uint16 = uint16(len(unsorted_array)-1)
+
+// }
